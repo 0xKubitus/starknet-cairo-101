@@ -12,6 +12,14 @@ trait Iex02 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex03 {
+    fn reset_counter(); // (reseting the counter to 0)
+    fn increment_counter(); // (incrementing the counter by 2)
+    fn decrement_counter(); // (decrementing the counter by 1)
+    fn claim_points();
+}
+
 
 
 #[contract]
@@ -27,6 +35,10 @@ mod AllInOneContractByKubitus {
     ////////////////////////////////
     use super::Iex01Dispatcher;
     use super::Iex01DispatcherTrait;
+    use super::Iex02Dispatcher;
+    use super::Iex02DispatcherTrait;
+    use super::Iex03Dispatcher;
+    use super::Iex03DispatcherTrait;
 
     ////////////////////////////////
     // Storage: In Cairo 1, storage is declared in a struct.
@@ -83,6 +95,14 @@ mod AllInOneContractByKubitus {
         Iex02Dispatcher{ contract_address: ex02_address::read() }.claim_points(my_value: ex02_secret_value);
     }
 
+    fn solve_ex03() {
+        Iex03Dispatcher{contract_address: ex03_address::read()}.reset_counter();
+        Iex03Dispatcher{contract_address: ex03_address::read()}.increment_counter();
+        Iex03Dispatcher{contract_address: ex03_address::read()}.increment_counter();
+        Iex03Dispatcher{contract_address: ex03_address::read()}.decrement_counter();
+        Iex03Dispatcher{contract_address: ex03_address::read()}.claim_points();
+    }
+
     ////////////////////////////////
     // External functions
     // These functions are callable by other contracts or external calls such as DAPP,
@@ -92,7 +112,7 @@ mod AllInOneContractByKubitus {
     fn validate_various_exercises() {
         solve_ex01();
         solve_ex02();
-        // solve_ex03();
+        solve_ex03();
         // solve_ex04();
         // solve_ex05();
         // solve_ex06();
