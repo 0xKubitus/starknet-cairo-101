@@ -36,6 +36,14 @@ trait Iex05 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex06 {
+    fn assign_user_slot();
+    fn external_handler_for_internal_function(a_value: u128);
+    fn get_user_values(account: ContractAddress) -> u128;
+    fn claim_points();
+}
+
 
 #[contract]
 mod AllInOneContractByKubitus {
@@ -56,8 +64,8 @@ mod AllInOneContractByKubitus {
     use super::Iex04DispatcherTrait;
     use super::Iex05Dispatcher;
     use super::Iex05DispatcherTrait;
-    // use super::Iex06Dispatcher;
-    // use super::Iex06DispatcherTrait;
+    use super::Iex06Dispatcher;
+    use super::Iex06DispatcherTrait;
     // use super::Iex07Dispatcher;
     // use super::Iex07DispatcherTrait;
     // use super::Iex08Dispatcher;
@@ -171,6 +179,20 @@ mod AllInOneContractByKubitus {
 
     }
 
+    fn solve_ex06() {
+        // STEP1 => assign_user_slot()
+        Iex06Dispatcher{contract_address: ex06_address::read()}.assign_user_slot();
+
+        // STEP2 => external_handler_for_internal_function(a_value: u128)
+        Iex06Dispatcher{contract_address: ex06_address::read()}.external_handler_for_internal_function(13_u128);
+
+        // STEP3 => get_user_values(account: ContractAddress) -> u128
+        let value_ex06 = Iex06Dispatcher{contract_address: ex06_address::read()}.get_user_values(get_contract_address());
+
+        // STEP4 => claim_points()
+        Iex06Dispatcher{contract_address: ex06_address::read()}.claim_points(value_ex06);
+    }
+
 
     ////////////////////////////////
     // External functions
@@ -184,7 +206,7 @@ mod AllInOneContractByKubitus {
         solve_ex03();
         solve_ex04();
         solve_ex05();
-        // solve_ex06();
+        solve_ex06();
         // solve_ex07();
         // solve_ex08();
         // solve_ex09();
