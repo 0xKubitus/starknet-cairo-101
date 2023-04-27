@@ -28,20 +28,24 @@ trait Iex04 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex05 {
+    fn assign_user_slot();
+    fn copy_secret_value_to_readable_mapping();
+    fn get_user_values(account: ContractAddress) -> u128;
+    fn claim_points();
+}
 
 
 #[contract]
 mod AllInOneContractByKubitus {
-    ////////////////////////////////
+    
     // Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
-    ////////////////////////////////
     use starknet::ContractAddress;
     use starknet::get_contract_address; // (address of this current contract)
     // use starknet::get_caller_address; // (address of the caller of the current contract)
 
-    ////////////////////////////////
     // Internal imports (These function become part of the set of function of the current contract)
-    ////////////////////////////////
     use super::Iex01Dispatcher;
     use super::Iex01DispatcherTrait;
     use super::Iex02Dispatcher;
@@ -50,8 +54,8 @@ mod AllInOneContractByKubitus {
     use super::Iex03DispatcherTrait;
     use super::Iex04Dispatcher;
     use super::Iex04DispatcherTrait;
-    // use super::Iex05Dispatcher;
-    // use super::Iex05DispatcherTrait;
+    use super::Iex05Dispatcher;
+    use super::Iex05DispatcherTrait;
     // use super::Iex06Dispatcher;
     // use super::Iex06DispatcherTrait;
     // use super::Iex07Dispatcher;
@@ -68,6 +72,7 @@ mod AllInOneContractByKubitus {
     // use super::Iex12DispatcherTrait;
     // use super::Iex13Dispatcher;
     // use super::Iex13DispatcherTrait;
+
 
     ////////////////////////////////
     // Storage: In Cairo 1, storage is declared in a struct.
@@ -92,6 +97,7 @@ mod AllInOneContractByKubitus {
         ex14_address: ContractAddress,
     }
 
+
     #[constructor]
     fn constructor() {
         ex01_address::write(starknet::contract_address_const::<0x031d1866cb827c4e27bbca9ffee59fa2158b679413ffb58c3f90af56e1140e85>());
@@ -109,6 +115,7 @@ mod AllInOneContractByKubitus {
         ex13_address::write(starknet::contract_address_const::<0x067ed1d23c5cc3a34fb86edd4f8415250c79a374e87bcf2e6870321261ca9b0f>());
         ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
     }
+
 
     ////////////////////////////////
     // Internal functions
@@ -146,8 +153,24 @@ mod AllInOneContractByKubitus {
         let slot_value = Iex04Dispatcher{contract_address: ex04_address::read()}.get_values_mapped(user_slot);
         
         // 4th step => claim_points(slot_value - 32)
-        Iex04Dispatcher{contract_address: ex04_address::read()}.claim_points(slot_value - 32);
+        Iex04Dispatcher{contract_address: ex04_address::read()}.claim_points(slot_value - 32_u128);
     }
+
+    fn solve_ex05() {
+        // STEP1 => assign_user_slot()
+        Iex05Dispatcher{contract_address: ex05_address::read()}.assign_user_slot();
+
+        // STEP2 => copy_secret_value_to_readable_mapping()
+        Iex05Dispatcher{contract_address: ex05_address::read()}.copy_secret_value_to_readable_mapping();
+
+        // STEP3 => get_user_values(account: ContractAddress)
+        let my_secret_value = Iex05Dispatcher{contract_address: ex05_address::read()}.get_user_values(get_contract_address()); // one-liner instead of like lines 148 & 150
+
+        // STEP4 => claim_points()
+        Iex05Dispatcher{contract_address: ex05_address::read()}.claim_points(my_secret_value + 23_u128);
+
+    }
+
 
     ////////////////////////////////
     // External functions
@@ -160,7 +183,7 @@ mod AllInOneContractByKubitus {
         solve_ex02();
         solve_ex03();
         solve_ex04();
-        // solve_ex05();
+        solve_ex05();
         // solve_ex06();
         // solve_ex07();
         // solve_ex08();
