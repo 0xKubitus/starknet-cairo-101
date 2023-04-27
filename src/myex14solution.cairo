@@ -6,6 +6,14 @@ trait Iex01 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex02 {
+    fn my_secret_value() -> u128;
+    fn claim_points();
+}
+
+
+
 #[contract]
 mod AllInOneContractByKubitus {
     ////////////////////////////////
@@ -66,7 +74,13 @@ mod AllInOneContractByKubitus {
     // These are the interfaces of the contracts that you will interact with.
     ////////////////////////////////
     fn solve_ex01() {
-        Iex01Dispatcher{contract_address: ex01_address}.claim_points();
+        let ex01_addr = ex01_address::read();
+        Iex01Dispatcher{contract_address: ex01_addr}.claim_points();
+    }
+
+    fn solve_ex02() {
+        let ex02_secret_value = Iex02Dispatcher{contract_address: ex02_address}.my_secret_value();
+        Iex02Dispatcher{ contract_address: ex02_address::read() }.claim_points(my_value: ex02_secret_value);
     }
 
     ////////////////////////////////
