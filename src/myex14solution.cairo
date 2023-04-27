@@ -44,6 +44,11 @@ trait Iex06 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex07 {
+    fn claim_points();
+}
+
 
 #[contract]
 mod AllInOneContractByKubitus {
@@ -66,10 +71,10 @@ mod AllInOneContractByKubitus {
     use super::Iex05DispatcherTrait;
     use super::Iex06Dispatcher;
     use super::Iex06DispatcherTrait;
-    // use super::Iex07Dispatcher;
-    // use super::Iex07DispatcherTrait;
-    // use super::Iex08Dispatcher;
-    // use super::Iex08DispatcherTrait;
+    use super::Iex07Dispatcher;
+    use super::Iex07DispatcherTrait;
+    use super::Iex08Dispatcher;
+    use super::Iex08DispatcherTrait;
     // use super::Iex09Dispatcher;
     // use super::Iex09DispatcherTrait;
     // use super::Iex10Dispatcher;
@@ -191,6 +196,10 @@ mod AllInOneContractByKubitus {
 
         // STEP4 => claim_points()
         Iex06Dispatcher{contract_address: ex06_address::read()}.claim_points(value_ex06);
+    }
+
+    fn solve_ex07() {
+        Iex07Dispatcher{contract_address: ex07_address::read()}.claim_points(50_u128, 0_u128);
     }
 
 
