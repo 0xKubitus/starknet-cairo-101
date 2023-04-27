@@ -20,6 +20,14 @@ trait Iex03 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex04 {
+    fn assign_user_slot();
+    fn get_user_slots(account: ContractAddress) -> u128;
+    fn get_values_mapped(slot: u128) -> u128;
+    fn claim_points();
+}
+
 
 
 #[contract]
@@ -28,7 +36,8 @@ mod AllInOneContractByKubitus {
     // Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
     ////////////////////////////////
     use starknet::ContractAddress;
-    use starknet::get_caller_address;
+    use starknet::get_contract_address; // (address of this current contract)
+    // use starknet::get_caller_address; // (address of the caller of the current contract)
 
     ////////////////////////////////
     // Internal imports (These function become part of the set of function of the current contract)
@@ -39,6 +48,26 @@ mod AllInOneContractByKubitus {
     use super::Iex02DispatcherTrait;
     use super::Iex03Dispatcher;
     use super::Iex03DispatcherTrait;
+    use super::Iex04Dispatcher;
+    use super::Iex04DispatcherTrait;
+    // use super::Iex05Dispatcher;
+    // use super::Iex05DispatcherTrait;
+    // use super::Iex06Dispatcher;
+    // use super::Iex06DispatcherTrait;
+    // use super::Iex07Dispatcher;
+    // use super::Iex07DispatcherTrait;
+    // use super::Iex08Dispatcher;
+    // use super::Iex08DispatcherTrait;
+    // use super::Iex09Dispatcher;
+    // use super::Iex09DispatcherTrait;
+    // use super::Iex10Dispatcher;
+    // use super::Iex10DispatcherTrait;
+    // use super::Iex11Dispatcher;
+    // use super::Iex11DispatcherTrait;
+    // use super::Iex12Dispatcher;
+    // use super::Iex12DispatcherTrait;
+    // use super::Iex13Dispatcher;
+    // use super::Iex13DispatcherTrait;
 
     ////////////////////////////////
     // Storage: In Cairo 1, storage is declared in a struct.
@@ -103,6 +132,23 @@ mod AllInOneContractByKubitus {
         Iex03Dispatcher{contract_address: ex03_address::read()}.claim_points();
     }
 
+    fn solve_ex04() {
+        // 1st step => assign_user_slot()
+        Iex04Dispatcher{contract_address: ex04_address::read()}.assign_user_slot();
+        
+        // 2nd step 
+            // => assign a variable to the current contract's address
+        let allInOneContract_address = get_contract_address();
+            // => let user_slot = get_user_slots()
+        let user_slot = Iex04Dispatcher{contract_address: ex04_address::read()}.get_user_slots(allInOneContract_address);
+        
+        // 3rd step => get_values_mapped(user_slot)
+        let slot_value = Iex04Dispatcher{contract_address: ex04_address::read()}.get_values_mapped(user_slot);
+        
+        // 4th step => claim_points(slot_value - 32)
+        Iex04Dispatcher{contract_address: ex04_address::read()}.claim_points(slot_value - 32);
+    }
+
     ////////////////////////////////
     // External functions
     // These functions are callable by other contracts or external calls such as DAPP,
@@ -113,7 +159,7 @@ mod AllInOneContractByKubitus {
         solve_ex01();
         solve_ex02();
         solve_ex03();
-        // solve_ex04();
+        solve_ex04();
         // solve_ex05();
         // solve_ex06();
         // solve_ex07();
