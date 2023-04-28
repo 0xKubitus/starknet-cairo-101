@@ -60,6 +60,12 @@ trait Iex09 {
     fn claim_points(array: Array::<u128>);
 }
 
+#[abi]
+trait Iex10 {
+    fn get_ex10b_address() -> ContractAddress;
+    fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
+}
+
 
 #[contract]
 mod AllInOneContractByKubitus {
@@ -89,8 +95,8 @@ mod AllInOneContractByKubitus {
     use super::Iex08DispatcherTrait;
     use super::Iex09Dispatcher;
     use super::Iex09DispatcherTrait;
-    // use super::Iex10Dispatcher;
-    // use super::Iex10DispatcherTrait;
+    use super::Iex10Dispatcher;
+    use super::Iex10DispatcherTrait;
     // use super::Iex11Dispatcher;
     // use super::Iex11DispatcherTrait;
     // use super::Iex12Dispatcher;
@@ -115,7 +121,6 @@ mod AllInOneContractByKubitus {
         ex08_address: ContractAddress,
         ex09_address: ContractAddress,
         ex10_address: ContractAddress,
-        ex10b_address: ContractAddress,
         ex11_address: ContractAddress,
         ex12_address: ContractAddress,
         ex13_address: ContractAddress,
@@ -251,6 +256,16 @@ mod AllInOneContractByKubitus {
         Iex09Dispatcher{contract_address: ex09_address::read()}.claim_points(array_ex09);
     }
 
+    fn solve_ex10() {
+        // STEP1 => get_ex10b_address()
+        let ex10b_address = Iex10Dispatcher{contract_address: ex10_address::read()}.get_ex10b_address();
+
+        // STEP2 => get_secret_value from ex10b contract
+        let ex10b_secret_value = Iex10Dispatcher{contract_address: ex10_address::read()}.get_secret_value();
+
+        // STEP3 => claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128)
+        Iex10Dispatcher{contract_address: ex10_address::read()}.claim_points(ex10b_secret_value, 13);
+    }
 
     ////////////////////////////////
     // External functions
@@ -268,7 +283,7 @@ mod AllInOneContractByKubitus {
         solve_ex07();
         solve_ex08();
         solve_ex09();
-        // solve_ex10();
+        solve_ex10();
         // solve_ex11();
         // solve_ex12();
         // solve_ex13();
