@@ -315,7 +315,14 @@ mod AllInOneContractByKubitus {
 
     #[external]
     fn claim_points_on_ex14_contract() {
-        Iex14Dispatcher{contract_address: ex14_address::read()}.claim_points;
+        Iex14Dispatcher{contract_address: ex14_address::read()}.claim_points();
     }
+
+  /////////////////////////////////////////////////////////////////
+  // Just adding a useless event here in order 
+  // to be able to declare this contract
+  #[event]
+  fn Some_Useless_Event(from:ContractAddress, value:felt252) {}
+  /////////////////////////////////////////////////////////////////
 
 }
