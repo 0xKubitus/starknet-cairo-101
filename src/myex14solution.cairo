@@ -55,6 +55,11 @@ trait Iex08 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex09 {
+    fn claim_points(array: Array::<u128>);
+}
+
 
 #[contract]
 mod AllInOneContractByKubitus {
@@ -82,8 +87,8 @@ mod AllInOneContractByKubitus {
     use super::Iex07DispatcherTrait;
     use super::Iex08Dispatcher;
     use super::Iex08DispatcherTrait;
-    // use super::Iex09Dispatcher;
-    // use super::Iex09DispatcherTrait;
+    use super::Iex09Dispatcher;
+    use super::Iex09DispatcherTrait;
     // use super::Iex10Dispatcher;
     // use super::Iex10DispatcherTrait;
     // use super::Iex11Dispatcher;
@@ -228,10 +233,22 @@ mod AllInOneContractByKubitus {
         user_values_ex08.append(10); // only the 10th element needs to have a specific value
 
         // STEP2 => set_user_values()
-        Iex08Dispatcher{contract_address: ex08_address::read()}.set_user_values(current_contract_address, user_values_ex08)
+        Iex08Dispatcher{contract_address: ex08_address::read()}.set_user_values(current_contract_address, user_values_ex08);
 
         // STEP3 => claim_points()
         Iex08Dispatcher{contract_address: ex08_address::read()}.claim_points();
+    }
+
+    fn solve_ex09() {
+        // STEP1 => create an array of length >= 4 & sum on elements >= 50
+        let mut array_ex09 = ArrayTrait::<u128>::new();
+        let array_ex09.append(10);
+        let array_ex09.append(10);
+        let array_ex09.append(10);
+        let array_ex09.append(20);
+
+        // STEP2 => claim_points()
+        Iex09Dispatcher{contract_address: ex09_address::read()}.claim_points(array_ex09);
     }
 
 
@@ -250,7 +267,7 @@ mod AllInOneContractByKubitus {
         solve_ex06();
         solve_ex07();
         solve_ex08();
-        // solve_ex09();
+        solve_ex09();
         // solve_ex10();
         // solve_ex11();
         // solve_ex12();
