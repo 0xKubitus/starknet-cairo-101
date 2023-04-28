@@ -1,7 +1,5 @@
-// Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
+// Core Library imports (ATTENTION: here things are imported outside of the contract, so would have to be reimported inside the contract if also needed inside the contract)
 use starknet::ContractAddress;
-use starknet::get_contract_address; // (address of this current contract)
-use array::ArrayTrait;
 
 
 ////////////////////////////////
@@ -75,6 +73,11 @@ trait Iex10 {
 
 #[contract]
 mod AllInOneContractByKubitus {
+
+    // Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
+    use starknet::ContractAddress;
+    use starknet::get_contract_address; // (address of this current contract)
+    use array::ArrayTrait;
 
     // Internal imports (These function become part of the set of function of the current contract)
     use super::Iex01Dispatcher;
