@@ -77,6 +77,11 @@ trait Iex10b {
     fn get_secret_value() -> u128;
 }
 
+#[abi]
+trait Iex14 {
+    fn claim_points();
+}
+
 
 #[contract]
 mod AllInOneContractByKubitus {
@@ -118,6 +123,8 @@ mod AllInOneContractByKubitus {
     // use super::Iex12DispatcherTrait;
     // use super::Iex13Dispatcher;
     // use super::Iex13DispatcherTrait;
+    use super::Iex14Dispatcher;
+    use super::Iex14DispatcherTrait;
 
 
     ////////////////////////////////
@@ -139,7 +146,7 @@ mod AllInOneContractByKubitus {
         // ex11_address: ContractAddress,
         // ex12_address: ContractAddress,
         // ex13_address: ContractAddress,
-        // ex14_address: ContractAddress,
+        ex14_address: ContractAddress,
     }
 
 
@@ -159,7 +166,7 @@ mod AllInOneContractByKubitus {
         // ex11_address::write(starknet::contract_address_const::<0x029a9a484d22a6353eff0d60ea56c6ffabaaac5e4889182287ef1d261578b197>());
         // ex12_address::write(starknet::contract_address_const::<0x04a221a8e3155fb03d1708881213a2ecdb05a41cf0ae6de83ddcf8f12bb04282>());
         // ex13_address::write(starknet::contract_address_const::<0x067ed1d23c5cc3a34fb86edd4f8415250c79a374e87bcf2e6870321261ca9b0f>());
-        // ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
+        ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
     }
 
 
@@ -304,6 +311,11 @@ mod AllInOneContractByKubitus {
         // solve_ex11();
         // solve_ex12();
         // solve_ex13();
+    }
+
+    #[external]
+    fn claim_points_on_ex14_contract() {
+        Iex14Dispatcher{contract_address: ex14_address::read()}.claim_points;
     }
 
 }
