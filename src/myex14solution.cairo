@@ -121,10 +121,10 @@ mod AllInOneContractByKubitus {
         ex08_address: ContractAddress,
         ex09_address: ContractAddress,
         ex10_address: ContractAddress,
-        ex11_address: ContractAddress,
-        ex12_address: ContractAddress,
-        ex13_address: ContractAddress,
-        ex14_address: ContractAddress,
+        // ex11_address: ContractAddress,
+        // ex12_address: ContractAddress,
+        // ex13_address: ContractAddress,
+        // ex14_address: ContractAddress,
     }
 
 
@@ -140,10 +140,10 @@ mod AllInOneContractByKubitus {
         ex08_address::write(starknet::contract_address_const::<0x01ec8e981b1b6a7256a71f21790dd07cafeb15d02c18534a2bd4a6c8551860aa>());
         ex09_address::write(starknet::contract_address_const::<0x053b96c4ee027c53ea001479f24c10b543063e3c26d037c600e5bd31f0b21e5c>());
         ex10_address::write(starknet::contract_address_const::<0x0763e89551900eba82d757a9f3862935cc7f7e47538f01ddba514f23d9a5f6e0>());
-        ex11_address::write(starknet::contract_address_const::<0x029a9a484d22a6353eff0d60ea56c6ffabaaac5e4889182287ef1d261578b197>());
-        ex12_address::write(starknet::contract_address_const::<0x04a221a8e3155fb03d1708881213a2ecdb05a41cf0ae6de83ddcf8f12bb04282>());
-        ex13_address::write(starknet::contract_address_const::<0x067ed1d23c5cc3a34fb86edd4f8415250c79a374e87bcf2e6870321261ca9b0f>());
-        ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
+        // ex11_address::write(starknet::contract_address_const::<0x029a9a484d22a6353eff0d60ea56c6ffabaaac5e4889182287ef1d261578b197>());
+        // ex12_address::write(starknet::contract_address_const::<0x04a221a8e3155fb03d1708881213a2ecdb05a41cf0ae6de83ddcf8f12bb04282>());
+        // ex13_address::write(starknet::contract_address_const::<0x067ed1d23c5cc3a34fb86edd4f8415250c79a374e87bcf2e6870321261ca9b0f>());
+        // ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
     }
 
 
@@ -267,6 +267,7 @@ mod AllInOneContractByKubitus {
         Iex10Dispatcher{contract_address: ex10_address::read()}.claim_points(ex10b_secret_value, 13);
     }
 
+
     ////////////////////////////////
     // External functions
     // These functions are callable by other contracts or external calls such as DAPP,
@@ -288,7 +289,5 @@ mod AllInOneContractByKubitus {
         // solve_ex12();
         // solve_ex13();
     }
-
-
 
 }
