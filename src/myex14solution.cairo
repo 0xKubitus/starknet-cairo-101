@@ -49,6 +49,12 @@ trait Iex07 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex08 {
+    fn set_user_values(account: ContractAddress, values: Array::<u128>);
+    fn claim_points();
+}
+
 
 #[contract]
 mod AllInOneContractByKubitus {
@@ -56,6 +62,7 @@ mod AllInOneContractByKubitus {
     // Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
     use starknet::ContractAddress;
     use starknet::get_contract_address; // (address of this current contract)
+    use array::ArrayTrait;
     // use starknet::get_caller_address; // (address of the caller of the current contract)
 
     // Internal imports (These function become part of the set of function of the current contract)
@@ -130,6 +137,8 @@ mod AllInOneContractByKubitus {
     }
 
 
+    let current_contract_address = get_contract_address(); // (cf. https://cairo-book.github.io/ch02-01-variables-and-mutability.html - not a constant because it cannot be the result of a value that can only be computed at runtime)
+
     ////////////////////////////////
     // Internal functions
     // These are the interfaces of the contracts that you will interact with.
@@ -192,7 +201,7 @@ mod AllInOneContractByKubitus {
         Iex06Dispatcher{contract_address: ex06_address::read()}.external_handler_for_internal_function(13_u128);
 
         // STEP3 => get_user_values(account: ContractAddress) -> u128
-        let value_ex06 = Iex06Dispatcher{contract_address: ex06_address::read()}.get_user_values(get_contract_address());
+        let value_ex06 = Iex06Dispatcher{contract_address: ex06_address::read()}.get_user_values(CURRENT_CONTRACT_ADDRESS); // as we use it many times, we can declare it as a variable that is immutable by default and reusable   
 
         // STEP4 => claim_points()
         Iex06Dispatcher{contract_address: ex06_address::read()}.claim_points(value_ex06);
@@ -200,6 +209,29 @@ mod AllInOneContractByKubitus {
 
     fn solve_ex07() {
         Iex07Dispatcher{contract_address: ex07_address::read()}.claim_points(50_u128, 0_u128);
+    }
+
+    fn solve_ex08() {
+        // STEP1 => create an array in which the 10th element is: '10_u128'
+        // in Cairo Arrays, we can only append elements to the end of the array
+        // (https://cairo-book.github.io/ch02-06-common-collections.html#array)
+        let mut user_values_ex08 = ArrayTrait::<u128>::new();
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(0);
+        user_values_ex08.append(10); // only the 10th element needs to have a specific value
+
+        // STEP2 => set_user_values()
+        Iex08Dispatcher{contract_address: ex08_address::read()}.set_user_values(current_contract_address, user_values_ex08)
+
+        // STEP3 => claim_points()
+        Iex08Dispatcher{contract_address: ex08_address::read()}.claim_points();
     }
 
 
@@ -216,8 +248,8 @@ mod AllInOneContractByKubitus {
         solve_ex04();
         solve_ex05();
         solve_ex06();
-        // solve_ex07();
-        // solve_ex08();
+        solve_ex07();
+        solve_ex08();
         // solve_ex09();
         // solve_ex10();
         // solve_ex11();
