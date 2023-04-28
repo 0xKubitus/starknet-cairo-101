@@ -1,3 +1,9 @@
+// Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
+use starknet::ContractAddress;
+use starknet::get_contract_address; // (address of this current contract)
+use array::ArrayTrait;
+
+
 ////////////////////////////////
 // ABI imports (These are the interfaces of the contracts that you will interact with)
 ////////////////////////////////
@@ -9,7 +15,7 @@ trait Iex01 {
 #[abi]
 trait Iex02 {
     fn my_secret_value() -> u128;
-    fn claim_points();
+    fn claim_points(my_value: u128);
 }
 
 #[abi]
@@ -69,12 +75,6 @@ trait Iex10 {
 
 #[contract]
 mod AllInOneContractByKubitus {
-    
-    // Core Library imports (These are syscalls and functionalities that allow you to write starknet contracts)
-    use starknet::ContractAddress;
-    use starknet::get_contract_address; // (address of this current contract)
-    use array::ArrayTrait;
-    // use starknet::get_caller_address; // (address of the caller of the current contract)
 
     // Internal imports (These function become part of the set of function of the current contract)
     use super::Iex01Dispatcher;
@@ -115,7 +115,6 @@ mod AllInOneContractByKubitus {
         ex03_address: ContractAddress,
         ex04_address: ContractAddress,
         ex05_address: ContractAddress,
-        ex05_address: ContractAddress,
         ex06_address: ContractAddress,
         ex07_address: ContractAddress,
         ex08_address: ContractAddress,
@@ -125,6 +124,7 @@ mod AllInOneContractByKubitus {
         // ex12_address: ContractAddress,
         // ex13_address: ContractAddress,
         // ex14_address: ContractAddress,
+        my_ex14_allInOneContract_address: ContractAddress,
     }
 
 
@@ -144,10 +144,9 @@ mod AllInOneContractByKubitus {
         // ex12_address::write(starknet::contract_address_const::<0x04a221a8e3155fb03d1708881213a2ecdb05a41cf0ae6de83ddcf8f12bb04282>());
         // ex13_address::write(starknet::contract_address_const::<0x067ed1d23c5cc3a34fb86edd4f8415250c79a374e87bcf2e6870321261ca9b0f>());
         // ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
+        my_ex14_allInOneContract_address::write(starknet::get_contract_address());
     }
 
-
-    let current_contract_address = get_contract_address(); // (cf. https://cairo-book.github.io/ch02-01-variables-and-mutability.html - not a constant because it cannot be the result of a value that can only be computed at runtime)
 
     ////////////////////////////////
     // Internal functions
@@ -159,8 +158,8 @@ mod AllInOneContractByKubitus {
     }
 
     fn solve_ex02() {
-        let ex02_secret_value = Iex02Dispatcher{contract_address: ex02_address}.my_secret_value();
-        Iex02Dispatcher{ contract_address: ex02_address::read() }.claim_points(my_value: ex02_secret_value);
+        let ex02_secret_value = Iex02Dispatcher{contract_address: ex02_address::read()}.my_secret_value();
+        Iex02Dispatcher { contract_address: ex02_address::read() }.claim_points(ex02_secret_value);
     }
 
     fn solve_ex03() {
@@ -211,7 +210,7 @@ mod AllInOneContractByKubitus {
         Iex06Dispatcher{contract_address: ex06_address::read()}.external_handler_for_internal_function(13_u128);
 
         // STEP3 => get_user_values(account: ContractAddress) -> u128
-        let value_ex06 = Iex06Dispatcher{contract_address: ex06_address::read()}.get_user_values(CURRENT_CONTRACT_ADDRESS); // as we use it many times, we can declare it as a variable that is immutable by default and reusable   
+        let value_ex06 = Iex06Dispatcher{contract_address: ex06_address::read()}.get_user_values(my_ex14_allInOneContract_address); // as we use it many times, we can declare it as a variable that is immutable by default and reusable   
 
         // STEP4 => claim_points()
         Iex06Dispatcher{contract_address: ex06_address::read()}.claim_points(value_ex06);
@@ -238,7 +237,7 @@ mod AllInOneContractByKubitus {
         user_values_ex08.append(10); // only the 10th element needs to have a specific value
 
         // STEP2 => set_user_values()
-        Iex08Dispatcher{contract_address: ex08_address::read()}.set_user_values(current_contract_address, user_values_ex08);
+        Iex08Dispatcher{contract_address: ex08_address::read()}.set_user_values(my_ex14_allInOneContract_address, user_values_ex08);
 
         // STEP3 => claim_points()
         Iex08Dispatcher{contract_address: ex08_address::read()}.claim_points();
@@ -247,10 +246,10 @@ mod AllInOneContractByKubitus {
     fn solve_ex09() {
         // STEP1 => create an array of length >= 4 & sum on elements >= 50
         let mut array_ex09 = ArrayTrait::<u128>::new();
-        let array_ex09.append(10);
-        let array_ex09.append(10);
-        let array_ex09.append(10);
-        let array_ex09.append(20);
+        array_ex09.append(10);
+        array_ex09.append(10);
+        array_ex09.append(10);
+        array_ex09.append(20);
 
         // STEP2 => claim_points()
         Iex09Dispatcher{contract_address: ex09_address::read()}.claim_points(array_ex09);
