@@ -218,11 +218,12 @@ mod AllInOneContractByKubitus {
 
         // STEP3 => get_user_values(account: ContractAddress)
         let allInOneContract_address = get_contract_address();
-        let my_secret_value = Iex05Dispatcher{contract_address: ex05_address::read()}.get_user_values(allInOneContract_address); 
+        let my_public_value = Iex05Dispatcher{contract_address: ex05_address::read()}.get_user_values(allInOneContract_address); 
 
         // STEP4 => claim_points()
-        Iex05Dispatcher{contract_address: ex05_address::read()}.claim_points(my_secret_value + 23_u128);
-
+        // let expected_secret = my_public_value + 23_u128 - 32_u128;
+        let expected_secret = my_public_value - 9_u128;
+        Iex05Dispatcher{contract_address: ex05_address::read()}.claim_points(expected_secret);
     }
 
     fn solve_ex06() {
