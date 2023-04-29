@@ -249,22 +249,23 @@ mod AllInOneContractByKubitus {
         // STEP1 => create an array in which the 10th element is: '10_u128'
         // in Cairo Arrays, we can only append elements to the end of the array
         // (https://cairo-book.github.io/ch02-06-common-collections.html#array)
-        let mut user_values_ex08 = ArrayTrait::<u128>::new();
+        let mut user_values_ex08 = ArrayTrait::new();
         user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
-        user_values_ex08.append(0_u128);
+        user_values_ex08.append(1_u128);
+        user_values_ex08.append(2_u128);
+        user_values_ex08.append(3_u128);
+        user_values_ex08.append(4_u128);
+        user_values_ex08.append(5_u128);
+        user_values_ex08.append(6_u128);
+        user_values_ex08.append(7_u128);
+        user_values_ex08.append(8_u128);
+        user_values_ex08.append(9_u128);
         user_values_ex08.append(10_u128); // only the 10th element needs to have a specific value
-
-        // STEP2 => set_user_values()
+   
+        // STEP2 => set_user_values()  
         let all_in_one_contract_address = get_contract_address();
         Iex08Dispatcher{contract_address: ex08_address::read()}.set_user_values(all_in_one_contract_address, user_values_ex08);
-
+     
         // STEP3 => claim_points()
         Iex08Dispatcher{contract_address: ex08_address::read()}.claim_points();
     }
@@ -332,8 +333,8 @@ mod AllInOneContractByKubitus {
         return ex01_address::read();
     }
     #[view]
-    fn check_ex05_address()-> ContractAddress {
-        return ex05_address::read();
+    fn check_ex08_address()-> ContractAddress {
+        return ex08_address::read();
     }
     #[view]
     fn check_ex10_address() -> ContractAddress {
@@ -345,17 +346,17 @@ mod AllInOneContractByKubitus {
     }
 
 
-//   /////////////////////////////////////////////////////////////////
-//   // Just adding a useless event here in order 
-//   // to be able to declare this contract as I already declared it
-//   #[event]
-//   fn Some_Useless_Event(from:ContractAddress, value:felt252) {}
-//   /////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
+  // Just adding a useless event here in order 
+  // to be able to declare this contract as I already declared it
+  #[event]
+  fn Some_Useless_Event(from:ContractAddress, value:felt252) {}
+  /////////////////////////////////////////////////////////////////
 
 
-//   /////////////////////////////////////////////////////////////////
-//   // some other useless event 
-//   #[event]
-//   fn Some_Other_Useless_Event(from:ContractAddress, value:felt252) {}
-//   /////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
+  // some other useless event 
+  #[event]
+  fn Some_Other_Useless_Event(from:ContractAddress, value:felt252) {}
+  /////////////////////////////////////////////////////////////////
 }
