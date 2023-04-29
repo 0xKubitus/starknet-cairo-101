@@ -320,6 +320,13 @@ mod AllInOneContractByKubitus {
         Iex14Dispatcher{contract_address: ex14_address::read()}.claim_points();
     }
 
+
+    ////////////////////////////////
+    // View Functions
+    // Public variables should be declared explicitly with a getter function (indicated with #[view]) 
+    // to be visible through the ABI and callable from other contracts or DAPP
+    ////////////////////////////////
+    // here these are not necessary for ex14 validation but I used to make sure that the constructor function worked as expected
     #[view]
     fn check_ex01_address() -> ContractAddress {
         return ex01_address::read();
@@ -329,15 +336,26 @@ mod AllInOneContractByKubitus {
         return ex05_address::read();
     }
     #[view]
+    fn check_ex10_address() -> ContractAddress {
+        return ex10_address::read();
+    }
+    #[view]
     fn check_ex14_address() -> ContractAddress {
         return ex14_address::read();
     }
 
-  /////////////////////////////////////////////////////////////////
-  // Just adding a useless event here in order 
-  // to be able to declare this contract as I already declared it
-  #[event]
-  fn Some_Useless_Event(from:ContractAddress, value:felt252) {}
-  /////////////////////////////////////////////////////////////////
 
+//   /////////////////////////////////////////////////////////////////
+//   // Just adding a useless event here in order 
+//   // to be able to declare this contract as I already declared it
+//   #[event]
+//   fn Some_Useless_Event(from:ContractAddress, value:felt252) {}
+//   /////////////////////////////////////////////////////////////////
+
+
+//   /////////////////////////////////////////////////////////////////
+//   // some other useless event 
+//   #[event]
+//   fn Some_Other_Useless_Event(from:ContractAddress, value:felt252) {}
+//   /////////////////////////////////////////////////////////////////
 }
