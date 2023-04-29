@@ -217,7 +217,8 @@ mod AllInOneContractByKubitus {
         Iex05Dispatcher{contract_address: ex05_address::read()}.copy_secret_value_to_readable_mapping();
 
         // STEP3 => get_user_values(account: ContractAddress)
-        let my_secret_value = Iex05Dispatcher{contract_address: ex05_address::read()}.get_user_values(get_contract_address()); // one-liner instead of like lines 148 & 150
+        let allInOneContract_address = get_contract_address();
+        let my_secret_value = Iex05Dispatcher{contract_address: ex05_address::read()}.get_user_values(allInOneContract_address); 
 
         // STEP4 => claim_points()
         Iex05Dispatcher{contract_address: ex05_address::read()}.claim_points(my_secret_value + 23_u128);
@@ -318,9 +319,22 @@ mod AllInOneContractByKubitus {
         Iex14Dispatcher{contract_address: ex14_address::read()}.claim_points();
     }
 
+    #[view]
+    fn check_ex01_address() -> ContractAddress {
+        return ex01_address::read();
+    }
+    #[view]
+    fn check_ex05_address()-> ContractAddress {
+        return ex05_address::read();
+    }
+    #[view]
+    fn check_ex14_address() -> ContractAddress {
+        return ex14_address::read();
+    }
+
   /////////////////////////////////////////////////////////////////
   // Just adding a useless event here in order 
-  // to be able to declare this contract
+  // to be able to declare this contract as I already declared it
   #[event]
   fn Some_Useless_Event(from:ContractAddress, value:felt252) {}
   /////////////////////////////////////////////////////////////////
